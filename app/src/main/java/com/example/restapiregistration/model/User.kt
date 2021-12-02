@@ -1,13 +1,9 @@
 package com.example.restapiregistration.model
 
+import android.widget.TextView
+import java.io.Serializable
+
 class User(
     val userName: String,
-    val firstName: String,
-    val lastName: String,
-    val email: String,
-    val dateOfBirth: String,
-    val mobile: String,
-    val gender: String,
-    val password: String
-) {
-}
+    val userImages: String
+)

@@ -16,12 +16,14 @@ import java.net.URL
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import org.json.JSONObject
 
 
 class ProfileActivity : AppCompatActivity() {
-    private val URL_BASE = URL("http://192.168.100.36:8000/api/profile/")
+    private val URL_BASE = URL("http://192.168.100.242:8000/api/profile/")
 
     lateinit var sharedPreferences: SharedPreferences
     //lateinit var editor: SharedPreferences.Editor
@@ -33,11 +35,18 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var userMobile: TextView
     lateinit var userEmail: TextView
     lateinit var userGender: TextView
-    lateinit var editButton: Button
+//    lateinit var editButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        title = "Profile"
+
+        val actionBar = supportActionBar
+
+        // showing the back button in action bar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         //Get token from sharedpreferences
         sharedPreferences = getSharedPreferences("getToken", Context.MODE_PRIVATE)
@@ -49,15 +58,53 @@ class ProfileActivity : AppCompatActivity() {
         userMobile = findViewById(R.id.mobilEditText)
         userEmail = findViewById(R.id.emailEditText)
         userGender = findViewById(R.id.genderEditText)
-        editButton = findViewById(R.id.editButtonId)
+//        editButton = findViewById(R.id.editButtonId)
         /*val profile = intent.getStringExtra("json_results")
         profileTextView.text = profile*/
 
         getMethod()
 
-        editButton.setOnClickListener {
+        /*editButton.setOnClickListener {
             editButtonClick()
+        }*/
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
         }
+        return super.onContextItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.profile_menu, menu)
+        return true
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.updateUser) {
+            //        val userPassword = sharedPreferences.getString("Password", "")
+            val intent = Intent(applicationContext, UpdateActivity::class.java).apply {
+                putExtra("first_name", "${firstName.text}")
+                putExtra("last_name", "${lastName.text}")
+//            putExtra("email", "${userEmail.text}")
+                putExtra("mobile", "${userMobile.text}")
+                putExtra("gender", "${userGender.text}")
+                putExtra("date_of_birth", "${dateOfBirth.text}")
+//            putExtra("password", "$userPassword")
+//            Log.d("UserPassword: ", userPassword.toString())
+            }
+            startActivity(intent)
+            finish()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -114,7 +161,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun editButtonClick() {
+   /* private fun editButtonClick() {
 //        val userPassword = sharedPreferences.getString("Password", "")
         val intent = Intent(applicationContext, UpdateActivity::class.java).apply {
             putExtra("first_name", "${firstName.text}")
@@ -128,5 +175,5 @@ class ProfileActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
-    }
+    }*/
 }

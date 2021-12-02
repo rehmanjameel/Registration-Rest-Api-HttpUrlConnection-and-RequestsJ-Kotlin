@@ -49,7 +49,7 @@ import java.io.DataOutputStream
 
 class MainActivity : AppCompatActivity() {
 
-    private val URL_BASE = "http://192.168.100.36:8000/api/register/"
+    private val URL_BASE = "http://192.168.100.242:8000/api/register/"
     private val request = HttpRequest()
 
     lateinit var userName: EditText
@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        title = "Register"
 
         userName = findViewById(R.id.userNameEditText)
         firstName = findViewById(R.id.firstNameEditText)

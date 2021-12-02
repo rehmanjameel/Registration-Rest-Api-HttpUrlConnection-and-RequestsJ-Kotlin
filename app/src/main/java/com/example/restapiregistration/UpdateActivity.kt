@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -25,7 +26,7 @@ import javax.net.ssl.HttpsURLConnection
 
 class UpdateActivity : AppCompatActivity() {
 
-    private val UPDATE_URL = URL("http://192.168.100.36:8000/api/profile/")
+    private val UPDATE_URL = URL("http://192.168.100.242:8000/api/profile/")
     lateinit var sharedPreferences: SharedPreferences
 
     lateinit var firstName: EditText
@@ -40,6 +41,13 @@ class UpdateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
+
+        title = "Update"
+
+        val actionBar = supportActionBar
+
+        // showing the back button in action bar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         sharedPreferences = getSharedPreferences("getToken", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("Token", "")
@@ -87,6 +95,16 @@ class UpdateActivity : AppCompatActivity() {
             dateOfBirthDialogue()
         }
 
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 
     private fun putMethod() {

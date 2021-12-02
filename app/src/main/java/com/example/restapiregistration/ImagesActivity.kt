@@ -54,21 +54,19 @@ class ImagesActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var imageView: ImageView
     lateinit var imageUri: Uri
-    var imagePath: String = ""
-    var PICK_IMAGE_MULTIPLE = 1
-    var imagesPathList: MutableList<String> = arrayListOf()
 
     companion object {
-//        private val pickImage = 1000
         private val PERMISSION_CODE = 1001
     }
 
-    val imageUrl = URL("http://192.168.100.36:8000/api/image/")
+    val imageUrl = URL("http://192.168.100.242:8000/api/image/")
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_images)
+
+        title = "Select Image"
 
         imageView = findViewById(R.id.galleryImage)
 
@@ -165,6 +163,10 @@ class ImagesActivity : AppCompatActivity() {
                     Log.e("response", "${response.code}")
                     Log.e("response", real)
                     showToast("Image Uploaded")
+
+                val intent = Intent(applicationContext, HomeScreen::class.java)
+                startActivity(intent)
+                finish()
                 }
         }
         request.setOnErrorListener {

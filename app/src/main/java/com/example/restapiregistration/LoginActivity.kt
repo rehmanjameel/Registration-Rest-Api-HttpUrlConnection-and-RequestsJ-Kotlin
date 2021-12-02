@@ -23,7 +23,7 @@ import java.net.URL
 
 class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
-    private val URL_BASE = URL("http://192.168.100.36:8000/api/login/")
+    private val URL_BASE = URL("http://192.168.100.242:8000/api/login/")
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
 
@@ -39,7 +39,21 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        title = "Login"
+
         sharedPreferences = getSharedPreferences("getToken", MODE_PRIVATE)
+
+        //getting the value of token to save it on first login and
+        //after opening the app second time go to home screen directly if user not logged out
+        val saveToken = sharedPreferences.getString("Token", null)
+
+        //check user login or not
+        if (saveToken != null) {
+            //If token is saved or not null it will directly move to homePage instead of LoginPage
+            val intent = Intent(applicationContext, HomeScreen::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         loginUser = findViewById(R.id.loginUserNameEditText)
         loginPassword = findViewById(R.id.loginPasswordEditText)
@@ -119,6 +133,7 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             val intent = Intent(applicationContext, HomeScreen::class.java)
                             //intent.putExtra("json_results", prettyJson)
                             startActivity(intent)
+                            finish()
                         }
                     } else {
                         Log.e("HTTPURLCONNECTION_ERROR", responseCode.toString())

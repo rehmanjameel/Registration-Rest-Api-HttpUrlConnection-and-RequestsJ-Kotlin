@@ -116,7 +116,7 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             Log.d("Pretty Printed JSON :", prettyJson)*/
 
                             // Open ProfileActivity with the results
-                            val intent = Intent(applicationContext, ProfileActivity::class.java)
+                            val intent = Intent(applicationContext, HomeScreen::class.java)
                             //intent.putExtra("json_results", prettyJson)
                             startActivity(intent)
                         }

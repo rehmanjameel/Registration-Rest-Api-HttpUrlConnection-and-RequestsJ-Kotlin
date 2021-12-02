@@ -1,30 +1,56 @@
 package com.example.restapiregistration
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 import pk.codebase.requests.HttpRequest
 import pk.codebase.requests.HttpResponse
 import java.lang.Exception
 import pk.codebase.requests.HttpError
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileInputStream
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.net.ssl.HttpsURLConnection
+import java.io.IOException
+
+import java.net.MalformedURLException
+
+import java.io.InputStream
+
+import android.R.attr.path
+
+import java.util.HashMap
+
+import java.io.DataOutputStream
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
 
     private val URL_BASE = "http://192.168.100.36:8000/api/register/"
     private val request = HttpRequest()
-//    private val TOKEN = "637f338b93a5c2e546bd138e07872106b7b5c942"
 
     lateinit var userName: EditText
     lateinit var firstName: EditText
@@ -155,9 +181,6 @@ class MainActivity : AppCompatActivity() {
                 _, selectedYear, selectedMonth, selectedDayofMonth ->
             val selectedDate = "$selectedYear-${selectedMonth+1}-$selectedDayofMonth"
             dateOfBirth.text = selectedDate
-
-//            val simpleDateFormat = SimpleDateFormat("yyyy-mm-dd")
-//            val theDate = simpleDateFormat.parse(selectedDate)
         }
         , year, month, day).show()
     }
